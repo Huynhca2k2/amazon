@@ -54,3 +54,15 @@
 .pb-14{
     padding-bottom: 14px;
 }
+
+.a-box .a-box-inner{
+    padding: 16px 18px;
+}
+
+.block{
+    display: block !important;
+}
+
+.mt-8{
+    margin-top: 8px;
+}

