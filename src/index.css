@@ -24,6 +24,11 @@
     gap: 10px;
 }
 
+.custom-your-card-mobile{
+    display: flex;
+    flex-direction: column;
+}
+
 
 .custom-your-card-item1{
     width: 55%;
@@ -40,6 +45,10 @@
 
 .w-25{
     width: 56% !important;
+}
+
+.mt-12{
+    margin-top: 12px;
 }
 
 .custom-text{
@@ -65,4 +74,38 @@
 
 .mt-8{
     margin-top: 8px;
+}
+
+.style1{
+    z-index: -1; position: absolute;
+}
+
+.display-none{
+    display: none;
+}
+
+.style2{
+    z-index: 699;
+    visibility: visible;
+    width: auto;
+    display: none;
+    top: 93.2px;
+    left: 53.5px;
+    opacity: 1;
+}
+
+.style3{
+    height: 700.8px; overflow-y: auto; 
+}
+
+.style4{
+    z-index: 697; opacity: 0.5; display: none 
+}
+
+.style5{
+    min-width: 0.96063%
+}
+
+.mt-24{
+    margin-top: 24px !important;
 }

