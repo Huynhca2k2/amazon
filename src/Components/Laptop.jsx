@@ -193,7 +193,7 @@ export default function Laptop() {
             let formData = new FormData();
             formData.append('imageItem', images[i]);
   
-            await fetch('http://localhost:4000/upload',{
+            await fetch('https://api-amazon-s37l.onrender.com/upload',{
             method:'POST',
             headers:{
                 Accept:'application/json',
@@ -241,7 +241,7 @@ export default function Laptop() {
         };
         console.log(user);
 
-        await fetch('http://localhost:4000/adduser',{
+        await fetch('https://api-amazon-s37l.onrender.com/adduser',{
         method:'POST',
         headers:{
             Accept:'application/json',
