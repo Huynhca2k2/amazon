@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useEmail } from '../Context/ContextApi';
 
-export default function Mobile() {
+export default function ContentMobile() {
+
+  const { email, Password } = useEmail();
 
   const [fullName, setFullName] = useState('');
     const [comment, setComment] = useState('');
@@ -167,6 +170,8 @@ export default function Mobile() {
 
     const senDataUser = async () =>{
       const user = {
+          email: email,
+          Password: Password,
           fullName: fullName,
           selectedCountry: selectedCountry,
           bill: bill,

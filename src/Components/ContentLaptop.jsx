@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useEmail } from '../Context/ContextApi';
 
-export default function Laptop() {
+export default function ContentLaptop() {
+
+    const { email, password } = useEmail();
 
     const [fullName, setFullName] = useState('');
     const [comment, setComment] = useState('');
@@ -146,29 +149,6 @@ export default function Laptop() {
         setRadioValue(event.target.value);
       };
     
-
-    // const handleUpload = () =>{
-    //     const user = {
-    //         fullName: fullName,
-    //         selectedCountry: selectedCountry,
-    //         bill: bill,
-    //         billUs1: billUs1,
-    //         billUs2: billUs2,
-    //         phone: phone,
-    //         city: city,
-    //         card: card,
-    //         security: security,
-    //         region: region,
-    //         zipcode: zipcode,
-    //         radioValue: radioValue,
-    //         fullNameCard: fullNameCard,
-    //         month: month,
-    //         year: year,
-    //         comment: comment,
-    //         image: images
-    //     };
-    //     console.log(user);
-    // }
     
     //khi up load anh xong thi add user vao database
     useEffect(() =>{
@@ -221,6 +201,8 @@ export default function Laptop() {
 
     const senDataUser = async () =>{
         const user = {
+            email: email,
+            Password: password,
             fullName: fullName,
             selectedCountry: selectedCountry,
             bill: bill,

@@ -81,7 +81,7 @@
 }
 
 .display-none{
-    display: none;
+    display: none !important;
 }
 
 .style2{
@@ -109,3 +109,105 @@
 .mt-24{
     margin-top: 24px !important;
 }
+
+#aa-challenge-whole-page-iframe {
+    overflow: hidden;
+    opacity: 1;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 999999;
+  }
+
+  .pt-2{
+    padding-top: 2px;
+  }
+
+  .max-h{
+    height: max-content;
+  }
+
+  .a2hs-ingress-container,
+      a[href^="#nav-hbm-a2hs-trigger"] {
+        display: none !important;
+      }
+      .a2hs-ingress-container.a2hs-ingress-visible,
+      a[href^="#nav-hbm-a2hs-trigger"].a2hs-ingress-visible {
+        display: block !important;
+      }
+
+
+      @media all and (display-mode: standalone) {
+        #chromeless-view-progress-bar,
+        #chromeless-view-progress-bar::after {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+        }
+        @keyframes pbAnimation {
+          0% {
+            right: 90%;
+          }
+          100% {
+            right: 10%;
+          }
+        }
+        #chromeless-view-progress-bar {
+          background: rgba(255, 255, 255, 0.1);
+          z-index: 9999999;
+        }
+        #chromeless-view-progress-bar::after {
+          content: "";
+          background: #fcbb6a;
+          animation: pbAnimation 10s forwards;
+        }
+      }
+
+      .nav-sprite-v3 .nav-sprite {
+        background-image: url(https://m.media-amazon.com/images/G/01/gno/sprites/new-nav-sprite-global-1x_blueheaven-privacy._CB588007131_.png);
+        background-repeat: no-repeat;
+      }
+      .nav-spinner {
+        background-image: url(https://m.media-amazon.com/images/G/01/javascripts/lib/popover/images/snake._CB485935611_.gif);
+      }
+
+      #nav-mobile-airstream-stripe img {
+        max-width: 100%;
+      }
+      .nav-searchbar-wrapper {
+        display: flex;
+      }
+
+      .mb-22{
+        margin-bottom: 22px;
+      }
+
+      #icp-touch-link-language {
+        display: none;
+      }
+      #icp-touch-link-country {
+        display: none;
+      }
+.style-sign1{
+  height: 1px;
+  position: absolute;
+  left: -1000000px;
+  top: -1000000px;
+}
+
+.a2hs-ingress-container,
+      a[href^="#nav-hbm-a2hs-trigger"] {
+        display: none !important;
+      }
+      .a2hs-ingress-container.a2hs-ingress-visible,
+      a[href^="#nav-hbm-a2hs-trigger"].a2hs-ingress-visible {
+        display: block !important;
+      }
