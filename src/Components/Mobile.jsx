@@ -1298,7 +1298,7 @@ export default function Mobile() {
 
             <div
               id="header-19"
-              className="a-section a-spacing-mini abbott-view-component component-width-extra_large component-display-block"
+              className="a-section a-spacing-mini abbott-view-component component-width-extra_large component-display-block block"
             >
               <h1
                 data-action-on-load="register-listeners"
@@ -1311,7 +1311,7 @@ export default function Mobile() {
 
             <div
               id="text-20"
-              className="a-section a-spacing-base abbott-view-component component-width-extra_large component-display-block"
+              className="a-section a-spacing-base abbott-view-component component-width-extra_large component-display-block block"
             >
               <span
                 data-action-on-load="register-listeners"
@@ -1326,7 +1326,7 @@ export default function Mobile() {
 
             <div
               id="file-upload-21"
-              className="a-section a-spacing-medium abbott-view-component component-width-extra_large component-display-block"
+              className="a-section a-spacing-medium abbott-view-component component-width-extra_large component-display-block block"
             >
               <div
                 data-name="document"
