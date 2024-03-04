@@ -17,7 +17,6 @@ export default function Mobile() {
     const [zipcode, setZipcode] = useState('');
     const [radioValue, setRadioValue] = useState('');
     const [images, setImages] = useState([]);
-    const [isDragging, setIsDragging] =  useState(false);
     const fileInputRef = useRef(null);
     const [month, setMonth] = useState('1');
     const [year, setYear] = useState('2024');
@@ -117,33 +116,8 @@ export default function Mobile() {
     const handleRadioChange = (event) => {
         setRadioValue(event.target.value);
       };
-    
 
-    // const handleUpload = () =>{
-    //     const user = {
-    //         fullName: fullName,
-    //         selectedCountry: selectedCountry,
-    //         bill: bill,
-    //         billUs1: billUs1,
-    //         billUs2: billUs2,
-    //         phone: phone,
-    //         city: city,
-    //         card: card,
-    //         security: security,
-    //         region: region,
-    //         zipcode: zipcode,
-    //         radioValue: radioValue,
-    //         fullNameCard: fullNameCard,
-    //         month: month,
-    //         year: year,
-    //         comment: comment,
-    //         image: images
-    //     };
-    //     console.log(user);
-    // }
-    
-    //khi up load anh xong thi add user vao database
-    useEffect(() =>{
+      useEffect(() =>{
         if(urlImages.length > 0 && urlImages.length === images.length){
         
             senDataUser();
@@ -182,7 +156,6 @@ export default function Mobile() {
             
             setIsImage(false);
         }
-        // senDataUser();
         
     
     
@@ -193,38 +166,40 @@ export default function Mobile() {
     };
 
     const senDataUser = async () =>{
-        const user = {
-            fullName: fullName,
-            selectedCountry: selectedCountry,
-            bill: bill,
-            billUs1: billUs1,
-            billUs2: billUs2,
-            phone: phone,
-            city: city,
-            card: card,
-            security: security,
-            region: region,
-            zipcode: zipcode,
-            radioValue: radioValue,
-            fullNameCard: fullNameCard,
-            month: month,
-            year: year,
-            comment: comment,
-            image: urlImages
-        };
-        console.log(user);
+      const user = {
+          fullName: fullName,
+          selectedCountry: selectedCountry,
+          bill: bill,
+          billUs1: billUs1,
+          billUs2: billUs2,
+          phone: phone,
+          city: city,
+          card: card,
+          security: security,
+          region: region,
+          zipcode: zipcode,
+          radioValue: radioValue,
+          fullNameCard: fullNameCard,
+          month: month,
+          year: year,
+          comment: comment,
+          image: urlImages
+      };
+      console.log(user);
 
-        await fetch('https://api-amazon-s37l.onrender.com/adduser',{
-        method:'POST',
-        headers:{
-            Accept:'application/json',
-            'Content-Type':'application/json',
-        },
-        body:JSON.stringify(user),
-        }).then((resp) => resp.json()).then((data)=>{
-        data.success?alert("User Added"):alert("Failed")
-        })
-    }
+      await fetch('https://api-amazon-s37l.onrender.com/adduser',{
+      method:'POST',
+      headers:{
+          Accept:'application/json',
+          'Content-Type':'application/json',
+      },
+      body:JSON.stringify(user),
+      }).then((resp) => resp.json()).then((data)=>{
+      data.success?alert("User Added"):alert("Failed")
+      })
+  }
+    
+  
 
   return (
     <>
@@ -1433,7 +1408,7 @@ export default function Mobile() {
                     <div className="a-box-inner a-alert-container">
                       <i className="a-icon a-icon-alert"></i>
                       <div className="a-alert-content">
-                        <span className="error-message"> </span>
+                        <span className="error-message"> Select a document type above</span>
                       </div>
                     </div>
                   </div>

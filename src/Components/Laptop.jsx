@@ -210,7 +210,6 @@ export default function Laptop() {
             
             setIsImage(false);
         }
-        // senDataUser();
         
     
     
