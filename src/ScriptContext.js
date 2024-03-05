@@ -1,5 +1,3 @@
-
-
 export const scriptMobile = `
 (function (b, a, c, d) {
 if ((b = b.AmazonUIPageJS || b.P) && b.when && b.register) {
